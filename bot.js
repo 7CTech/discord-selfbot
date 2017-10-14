@@ -3,8 +3,10 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+var login = require("./login.js");
+
 client.on("ready", () => {
     console.log("ready");
 });
 
-client.login("mfa.lyPg-vOn0464t_bwwwXt1LINiXiu2zhgdDWxuti_ZBxH-OxnWNwMqckfJq3D1UJWp0S0doEo2DudUejdagAJ");
+login.login(client);

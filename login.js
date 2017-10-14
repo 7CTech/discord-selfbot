@@ -1,3 +1,5 @@
-function login(client) {
-  client.login(<SUPER SECRET TOKEN HERE>);
-}
+module.exports = {
+  login: function (client) {
+    client.login(<SUPER SECRET TOKEN HERE>);
+  }
+};
