@@ -3,7 +3,9 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-var login = require("./login.js");
+var mentionStrings = require("./mention-strings.json");
+var secrets = require("./secrets.json");
+
 var util = require("./util.js");
 
 client.on("ready", () => {
@@ -11,9 +13,9 @@ client.on("ready", () => {
 });
 
 client.on("messsage", message => {
-    if (util.strIncludes(message, null/*TODO: FIND HOW TO JSON*/)) {
-        
+    if (util.strIncludes(message, mentionStrings.strings)) {
+        //TODO: PING
     }
 });
 
-login.login(client);
+client.login(secrets.token);
