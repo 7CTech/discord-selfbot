@@ -1,3 +1,9 @@
 login.js
 node_modules/
 secrets.json
+.idea/
+cmake-build-*/
+build/
+.tern-project
+.clang_complete
+

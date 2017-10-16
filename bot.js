@@ -1,12 +1,10 @@
-/*jshint esversion: 6*/
-
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-var mentionStrings = require("./mention-strings.json");
-var secrets = require("./secrets.json");
+let mentionStrings = require("./mention-strings.json");
+let secrets = require("./secrets.json");
 
-var util = require("./util.js");
+let util = require("./util.js");
 
 client.on("ready", () => {
     console.log("ready");
