@@ -27,4 +27,11 @@ set(SOURCE_FILES
         secrets.json
         util.js)
 
+MESSAGE(${GlibMM_INCLUDE_DIRS})
+
+
+
+include_directories(${GioMM_INCLUDE_DIRS})
+include_directories(${GlibMM_INCLUDE_DIRS})
+
 add_executable(discord_selfbot ${SOURCE_FILES} ${GioMM_INCLUDE_DIRS} ${GlibMM_INCLUDE_DIRS})
