@@ -1,10 +1,15 @@
+
+#define STANDLONE
+
+
+#ifndef STANDLONE
 #include <node/node.h>
-#include "util.cc"
+#endif
+#include "util.hh"
 #include <QtDBus>
 #include <locale>
 #include <iostream>
 
-#define STANDLONE
 
 
 namespace SelfBot {
@@ -28,18 +33,31 @@ namespace SelfBot {
                 return;
             }
 
-            QDBusReply<QStringList> services = QDBusConnection::sessionBus().interface()->registeredServiceNames();
+            QDBusReply<QStringList> qServices = QDBusConnection::sessionBus().interface()->registeredServiceNames();
 
             QStringList::const_iterator constIterator;
-            for (constIterator = services.value().constBegin(), constIterator != services.value().constEnd(), ++constIterator) {
-                std::cout << (*constIterator).toLocal8Bit().constData() << std::endl;
-            }}
-		}
+
+            std::vector<std::string> services;
+
+            for (constIterator = qServices.value().constBegin(); constIterator != qServices.value().constEnd(); ++constIterator) {
+                std::string service((*constIterator).toLocal8Bit().constData());
+                if (service.c_str()[0] != ':') services.push_back(service);
+            }
+
+            for (const std::string &service : services) {
+                std::cout << service << std::endl;
+            }
+
+
+        }
 	} //namespace CurrentlyPlaying
 } //namespace SelfBot
 
 #ifdef STANDLONE
 int main(int argc, char **argv) {
+
+    QCoreApplication app(argc, argv);
+
     SelfBot::CurrentlyPlaying::getCurrentlyPlaying();
 }
 #endif
