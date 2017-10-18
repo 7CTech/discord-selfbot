@@ -8,10 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_C_FLAGS_DEBUG "-g -O0")
 
-find_package(PkgConfig REQUIRED)
-
-pkg_check_modules(GioMM giomm-2.4)
-pkg_check_modules(GlibMM glibmm-2.4)
+find_package(Qt5 REQUIRED COMPONENTS Core DBus)
 
 IF(NOT ${GioMM_FOUND} OR NOT ${GlibMM_FOUND})
     MESSAGE(FATAL_ERROR, "MISSING GioMM OR GLIBMM")
@@ -27,11 +24,11 @@ set(SOURCE_FILES
         secrets.json
         util.js)
 
-MESSAGE(${GlibMM_INCLUDE_DIRS})
 
 
 
-include_directories(${GioMM_INCLUDE_DIRS})
-include_directories(${GlibMM_INCLUDE_DIRS})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+include_directories(${Qt5DBus_INCLUDE_DIRS})
 
-add_executable(discord_selfbot ${SOURCE_FILES} ${GioMM_INCLUDE_DIRS} ${GlibMM_INCLUDE_DIRS})
+add_executable(discord_selfbot ${SOURCE_FILES})
+target_link_libraries(discord_selfbot ${SOURCE_FILES} ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES})
