@@ -17,7 +17,7 @@ namespace SelfBot {
 #ifndef STANDLONE
 		void getCurrentlyPlaying(const v8::FunctionCallbackInfo<v8::Value> &args) {
 #else
-        void getCurrentlyPlaying() {
+        void getCurrentlyPlaying(const std::string &mediaPlayer) {
 #endif
 #ifndef STANDLONE
 			std::string mediaPlayer = std::string(*v8::String::Utf8Value(args[0]->ToString()));
@@ -41,14 +41,38 @@ namespace SelfBot {
 
             for (constIterator = qServices.value().constBegin(); constIterator != qServices.value().constEnd(); ++constIterator) {
                 std::string service((*constIterator).toLocal8Bit().constData());
-                if (service.c_str()[0] != ':') services.push_back(service);
+                if (service.find("org.mpris.MediaPlayer2") == 0) services.push_back(service);
             }
 
-            for (const std::string &service : services) {
-                std::cout << service << std::endl;
+            std::string service;
+
+            if (services.empty()) {
+                std::cout << "No valid services, please start a media player" << std::endl;
+#ifndef STANDLONE
+                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "no running media players")));
+#endif
+            } else if (services.size() == 1) service = services[0];
+            else {
+                for (const std::string &playerService : services) {
+                    if (playerService.substr(playerService.find_last_of('.')) == mediaPlayer) {
+                        service = playerService;
+                    }
+                }
             }
 
+            if (service.empty()) {
+                std::cout << "Issue finding service" << std::endl;
+#ifndef STANDLONE
+                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "issue fingind service")));
+#endif
+            }
 
+            std::cout << service << std::endl;
+
+            QDBusInterface *serviceInterface = new QDBusInterface(QString::fromStdString(service), "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player");
+            QDBusVariant metadata = serviceInterface->property("Metadata");
+
+            delete(serviceInterface);
         }
 	} //namespace CurrentlyPlaying
 } //namespace SelfBot
@@ -58,6 +82,6 @@ int main(int argc, char **argv) {
 
     QCoreApplication app(argc, argv);
 
-    SelfBot::CurrentlyPlaying::getCurrentlyPlaying();
+    SelfBot::CurrentlyPlaying::getCurrentlyPlaying("");
 }
 #endif
