@@ -11,6 +11,10 @@
 #include <iostream>
 
 
+typedef QMap<QString, QVariant> metadata_t;
+
+Q_DECLARE_METATYPE(metadata_t);
+
 
 namespace SelfBot {
 	namespace CurrentlyPlaying {
@@ -69,8 +73,23 @@ namespace SelfBot {
 
             std::cout << service << std::endl;
 
-            QDBusInterface *serviceInterface = new QDBusInterface(QString::fromStdString(service), "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player");
-            QDBusVariant metadata = serviceInterface->property("Metadata");
+            qDBusRegisterMetaType<QMap<QString, QVariant>>();
+
+            QDBusInterface *serviceInterface = new QDBusInterface(QString::fromStdString(service), "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties");
+
+            QDBusReply<QVariant> metadata = serviceInterface->call("Get", QString("org.mpris.MediaPlayer2.Player"), "Metadata");
+
+            std::cout << metadata.isValid() << std::endl;
+
+            qDBusRegisterMetaType<QMap<QString, QVariant>>();
+            qDBusRegisterMetaType<QArgument>();
+            qDBusRegisterMetaType<QVariantMap>();
+
+            std::cout << metadata.value().canConvert<QVariantMap>();
+
+            //std::cout << std::string(metadata.value()["xesam:title"].toString().toLocal8Bit()) << std::endl;
+
+            //std::cout << std::string(metadata.value()["xesam:title"].toString().toLocal8Bit()) << std::endl;
 
             delete(serviceInterface);
         }
