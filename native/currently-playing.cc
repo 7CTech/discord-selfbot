@@ -62,11 +62,9 @@ namespace SelfBot {
             if (service.empty()) {
                 std::cout << "Issue finding service" << std::endl;
 #ifndef STANDLONE
-                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "issue fingind service")));
+                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "issue findind service")));
 #endif
             }
-
-            std::cout << "Using service: " << service << std::endl;
 
             QDBusInterface serviceInterface (QString::fromStdString(service), "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties");
             QDBusReply<QVariant> metadata = serviceInterface.call("Get", QString("org.mpris.MediaPlayer2.Player"), "Metadata");
@@ -75,7 +73,6 @@ namespace SelfBot {
 
             std::string title(metadataMap["xesam:title"].toString().toLocal8Bit());
             std::string artist((SelfBot::Util::joinQStringList(metadataMap["xesam:artist"].value<QStringList>(), ", ")).toStdString());
-
 
             std::string res(artist + " - " + title);
 
