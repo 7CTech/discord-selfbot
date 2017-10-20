@@ -21,7 +21,7 @@ namespace SelfBot {
 #ifndef STANDLONE
 		void getCurrentlyPlaying(const v8::FunctionCallbackInfo<v8::Value> &args) {
 #else
-        void getCurrentlyPlaying(const std::string &mediaPlayer) {
+        std::string getCurrentlyPlaying(const std::string &mediaPlayer) {
 #endif
 #ifndef STANDLONE
 			std::string mediaPlayer = std::string(*v8::String::Utf8Value(args[0]->ToString()));
@@ -34,7 +34,7 @@ namespace SelfBot {
 #ifndef STANDLONE
                 isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "not connected to the session bus")));
 #endif
-                return;
+                return "";
             }
 
             QDBusReply<QStringList> qServices = QDBusConnection::sessionBus().interface()->registeredServiceNames();
@@ -76,6 +76,9 @@ namespace SelfBot {
             QDBusReply<QVariant> metadata = serviceInterface.call("Get", QString("org.mpris.MediaPlayer2.Player"), "Metadata");
 
             QVariantMap metadataMap = qdbus_cast<QVariantMap>(metadata.value().value<QDBusArgument>());
+
+            std::string title(metadataMap["xesam:title"].toString().toLocal8Bit());
+            std::string artist(metadataMap["xesam:artist"].value<QStringList>().join(", "))
 
             std::cout << std::string(metadataMap["xesam:title"].toString().toLocal8Bit()) << std::endl;
         }
