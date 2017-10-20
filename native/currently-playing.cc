@@ -78,7 +78,7 @@ namespace SelfBot {
             QVariantMap metadataMap = qdbus_cast<QVariantMap>(metadata.value().value<QDBusArgument>());
 
             std::string title(metadataMap["xesam:title"].toString().toLocal8Bit());
-            std::string artist(metadataMap["xesam:artist"].value<QStringList>().join(", "))
+            //std::string artist(metadataMap["xesam:artist"].value<QStringList>().join(", "))
 
             std::cout << std::string(metadataMap["xesam:title"].toString().toLocal8Bit()) << std::endl;
         }

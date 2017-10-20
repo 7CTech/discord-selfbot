@@ -19,7 +19,7 @@ std::string SelfBot::Util::shell(const std::string &command) {
 
 QString SelfBot::Util::joinQStringList(const QStringList &list) {
 	QStringList::const_iterator constIterator;
-	for (constIterator = list.nconstBegin(); constIterator != qServices.value().constEnd(); ++constIterator) {
+	for (constIterator = list.constBegin(); constIterator != list.constEnd(); ++constIterator) {
 
 	}
 }
