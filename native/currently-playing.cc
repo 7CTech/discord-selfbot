@@ -13,7 +13,7 @@
 
 typedef QMap<QString, QVariant> metadata_t;
 
-Q_DECLARE_METATYPE(metadata_t);
+//Q_DECLARE_METATYPE(metadata_t);
 
 
 namespace SelfBot {
@@ -81,11 +81,28 @@ namespace SelfBot {
 
             std::cout << metadata.isValid() << std::endl;
 
-            qDBusRegisterMetaType<QMap<QString, QVariant>>();
-            qDBusRegisterMetaType<QArgument>();
-            qDBusRegisterMetaType<QVariantMap>();
+            //qDBusRegisterMetaType<QDBusArgument>();
+            //qDBusRegisterMetaType<QVariantMap>();
+            //qDBusRegisterMetaType<QMap<QString, QVariant>>();
 
-            std::cout << metadata.value().canConvert<QVariantMap>();
+            //QMap<QString, QVariant> metadataMap = qdbus_cast<QMap<QString, QVariant>>( metadata.value().value<QDBusArgument>());
+
+
+
+            std::cout << metadata.value().canConvert<QDBusArgument>() << std::endl;
+
+            std::cout << metadata.value().convert(qMetaTypeId<QDBusArgument>()) << std::endl;
+
+            QDBusArgument metadataArg = metadata.value().value<QDBusArgument>();
+
+            QVariantMap metadataMap = qdbus_cast<QVariantMap>(metadataArg);
+
+
+            //metadata.value().convert(qMetaTypeId<QDBusArgument>());
+
+            //QDBusArgument metadataArg = metadata.value().value();
+            //std::cout << metadataArg.currentType() << std::endl;
+
 
             //std::cout << std::string(metadata.value()["xesam:title"].toString().toLocal8Bit()) << std::endl;
 
