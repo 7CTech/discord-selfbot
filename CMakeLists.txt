@@ -33,5 +33,7 @@ set(SOURCE_FILES
 include_directories(${Qt5Core_INCLUDE_DIRS})
 include_directories(${Qt5DBus_INCLUDE_DIRS})
 
+MESSAGE(${Qt5Core_LIBRARIES})
+
 add_executable(discord_selfbot ${SOURCE_FILES})
 target_link_libraries(discord_selfbot ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES})

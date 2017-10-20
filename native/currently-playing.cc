@@ -1,5 +1,5 @@
 
-#define STANDLONE
+#undef STANDLONE
 
 
 #ifndef STANDLONE
@@ -9,12 +9,7 @@
 #include <QtDBus>
 #include <locale>
 #include <iostream>
-
-
-typedef QMap<QString, QVariant> metadata_t;
-
-//Q_DECLARE_METATYPE(metadata_t);
-
+#include <string>
 
 namespace SelfBot {
 	namespace CurrentlyPlaying {
@@ -33,8 +28,9 @@ namespace SelfBot {
                 std::cout << "not connected to the session bus" << std::endl;
 #ifndef STANDLONE
                 isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "not connected to the session bus")));
-#endif
+#else
                 return "";
+#endif
             }
 
             QDBusReply<QStringList> qServices = QDBusConnection::sessionBus().interface()->registeredServiceNames();
@@ -78,16 +74,34 @@ namespace SelfBot {
             QVariantMap metadataMap = qdbus_cast<QVariantMap>(metadata.value().value<QDBusArgument>());
 
             std::string title(metadataMap["xesam:title"].toString().toLocal8Bit());
-            //std::string artist(metadataMap["xesam:artist"].value<QStringList>().join(", "))
+            std::string artist((SelfBot::Util::joinQStringList(metadataMap["xesam:artist"].value<QStringList>(), ", ")).toStdString());
 
-            std::cout << std::string(metadataMap["xesam:title"].toString().toLocal8Bit()) << std::endl;
+
+            std::string res(artist + " - " + title);
+
+#ifdef STANDLONE
+            return res;
+#else
+            args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, res.c_str()));
+#endif
         }
 	} //namespace CurrentlyPlaying
+
+
+
 } //namespace SelfBot
 
 #ifdef STANDLONE
 int main(int argc, char **argv) {
     QCoreApplication app(argc, argv);
-    SelfBot::CurrentlyPlaying::getCurrentlyPlaying("");
+    std::cout << SelfBot::CurrentlyPlaying::getCurrentlyPlaying("") << std::endl;
 }
+#endif
+
+#ifndef STANDLONE
+void init(v8::Local<v8::Object> exports) {
+    NODE_SET_METHOD(exports, "getCurrentlyPlaying", SelfBot::CurrentlyPlaying::getCurrentlyPlaying);
+}
+
+NODE_MODULE(NODE_GYP_MODULE_NAME, init);
 #endif
