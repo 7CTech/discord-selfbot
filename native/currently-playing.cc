@@ -40,7 +40,6 @@ namespace SelfBot {
             QDBusReply<QStringList> qServices = QDBusConnection::sessionBus().interface()->registeredServiceNames();
 
             QStringList::const_iterator constIterator;
-
             std::vector<std::string> services;
 
             for (constIterator = qServices.value().constBegin(); constIterator != qServices.value().constEnd(); ++constIterator) {
@@ -71,53 +70,21 @@ namespace SelfBot {
 #endif
             }
 
-            std::cout << service << std::endl;
+            std::cout << "Using service: " << service << std::endl;
 
-            qDBusRegisterMetaType<QMap<QString, QVariant>>();
+            QDBusInterface serviceInterface (QString::fromStdString(service), "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties");
+            QDBusReply<QVariant> metadata = serviceInterface.call("Get", QString("org.mpris.MediaPlayer2.Player"), "Metadata");
 
-            QDBusInterface *serviceInterface = new QDBusInterface(QString::fromStdString(service), "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties");
+            QVariantMap metadataMap = qdbus_cast<QVariantMap>(metadata.value().value<QDBusArgument>());
 
-            QDBusReply<QVariant> metadata = serviceInterface->call("Get", QString("org.mpris.MediaPlayer2.Player"), "Metadata");
-
-            std::cout << metadata.isValid() << std::endl;
-
-            //qDBusRegisterMetaType<QDBusArgument>();
-            //qDBusRegisterMetaType<QVariantMap>();
-            //qDBusRegisterMetaType<QMap<QString, QVariant>>();
-
-            //QMap<QString, QVariant> metadataMap = qdbus_cast<QMap<QString, QVariant>>( metadata.value().value<QDBusArgument>());
-
-
-
-            std::cout << metadata.value().canConvert<QDBusArgument>() << std::endl;
-
-            std::cout << metadata.value().convert(qMetaTypeId<QDBusArgument>()) << std::endl;
-
-            QDBusArgument metadataArg = metadata.value().value<QDBusArgument>();
-
-            QVariantMap metadataMap = qdbus_cast<QVariantMap>(metadataArg);
-
-
-            //metadata.value().convert(qMetaTypeId<QDBusArgument>());
-
-            //QDBusArgument metadataArg = metadata.value().value();
-            //std::cout << metadataArg.currentType() << std::endl;
-
-
-            //std::cout << std::string(metadata.value()["xesam:title"].toString().toLocal8Bit()) << std::endl;
-
-            //std::cout << std::string(metadata.value()["xesam:title"].toString().toLocal8Bit()) << std::endl;
-
-            delete(serviceInterface);
+            std::cout << std::string(metadataMap["xesam:title"].toString().toLocal8Bit()) << std::endl;
         }
 	} //namespace CurrentlyPlaying
 } //namespace SelfBot
 
 #ifdef STANDLONE
 int main(int argc, char **argv) {
-
     QCoreApplication app(argc, argv);
-
     SelfBot::CurrentlyPlaying::getCurrentlyPlaying("");
 }
 #endif
