@@ -9,7 +9,6 @@
 #include <QtDBus>
 #include <locale>
 #include <iostream>
-#include <string>
 
 namespace SelfBot {
 	namespace CurrentlyPlaying {
@@ -83,9 +82,6 @@ namespace SelfBot {
 #endif
         }
 	} //namespace CurrentlyPlaying
-
-
-
 } //namespace SelfBot
 
 #ifdef STANDLONE

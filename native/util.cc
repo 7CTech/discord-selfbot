@@ -1,7 +1,6 @@
 #include <string>
 #include <array>
 #include <memory>
-#include <cstdio>
 #include "util.hh"
 #include <QtDBus>
 
