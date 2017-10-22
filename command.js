@@ -1,17 +1,20 @@
 class Command {
-    _name;
-    _func;
-    constructor(name, func) {
-        Command.prototype._name = name;
-        Command.prototype._func = func;
+    constructor(name, func, argCount) {
+        this._name = name;
+        this._func = func;
+        this._argCount = argCount;
     }
 
     get name() {
-        return this.constructor._name;
+        return this._name;
+    }
+
+    get argCount() {
+        return this._argCount;
     }
 
     run(client, message) {
-        return this.constructor._func(client, message);
+        return this._func(client, message);
     }
 }
 

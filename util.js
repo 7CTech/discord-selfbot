@@ -8,11 +8,12 @@ module.exports = {
         return false;
     },
 
-    isCommandValid: (command) => {
-        if (command.name === null || command.name === "") return false;
-    },
-
     getCommand: (messageContent) => {
         return messageContent.split(" ")[0].substr(global.config.prefix.length);
+    },
+
+    validateArgs: (message, argCount) => {
+        let splitMessage = message.split(" ");
+        return splitMessage.length - 1 === argCount;
     }
 };

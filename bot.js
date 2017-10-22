@@ -4,12 +4,14 @@ const client = new Discord.Client({
     sync: true
 });
 
-
+/*Native*/
 const native_module = require("./build/Release/native_module");
 
+/*Local files*/
 let config = require("./config.json");
-const global = require("./global");
-
+const global = require("./global.js");
+const mentionStrings = require("./mention-strings.json");
+const secrets = require("./secrets.json");
 global.config = config;
 
 let commands = new Map();
@@ -19,14 +21,12 @@ config.commands.forEach(c => {
     commands.set(command.name, command.run);
 });
 
-let mentionStrings = require("./mention-strings.json");
-let secrets = require("./secrets.json");
-
+/*Local files with code*/
 let util = require("./util.js");
 
+/*Globals*/
 let oldGame;
 let gameToSongInterval;
-
 
 client.on("ready", () => {
     console.log("ready");
@@ -47,8 +47,6 @@ client.on("message", (message) => {
 
 client.on("disconnect", () => {
     clearInterval(gameToSongInterval);
-    oldGame = "";
-
     process.exit(0);
 });
 

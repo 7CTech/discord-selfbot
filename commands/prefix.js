@@ -1,6 +1,7 @@
 const global = require("../global.js");
 const fs = require("fs");
-const path = require("path");
+require("path"); //for __dirname
+
 const Command = require("../command").Command;
 
 let prefix = new Command("prefix", (client, message) => {

@@ -20,7 +20,7 @@ find_package(Qt5 REQUIRED COMPONENTS Core DBus)
 
 set(SOURCE_FILES
         native/currently-playing.cc
-        native/util.cc native/util.hh)
+        native/util.cc native/util.hh native/shell.cc)
         #bot.js
         #mention-strings.json
         #package-lock.json
