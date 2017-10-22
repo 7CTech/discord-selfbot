@@ -6,4 +6,4 @@ cmake-build-*/
 build/
 .tern-project
 .clang_complete
-
+build-*/
