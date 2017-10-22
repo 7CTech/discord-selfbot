@@ -9,5 +9,7 @@ const sshToHttpsGitURL = (url) => {
 
 let repo = new Command("repo", (client, message) => {
     util.validateArgs(message.content, this.argCount);
-    if (message.content.includes("@"))
+    let origin =
+    if (message.content.includes("@")) message.edit(sshToHttpsGitURL());
+
 }, 0);
