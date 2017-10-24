@@ -1,4 +1,4 @@
-const Command = require("../command").Command;
+const Command = require("../command.js").Command;
 
 let kill = new Command("kill", (client, message) => {
     message.delete();

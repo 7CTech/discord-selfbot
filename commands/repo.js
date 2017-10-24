@@ -11,11 +11,19 @@ const sshToHttpsGitURL = (url) => {
 };
 
 let repo = new Command("repo", (client, message) => {
+    let newMsg = message.reply(message.content); //TODO: REMOVE THIS WHEN SELFBOTTING
     util.validateArgs(message.content, this.argCount);
-    const defaults = {
+    const options = {
         cwd: __dirname,
         env: process.env
     };
-    let origin = sshToHttpsGitURL(spawn("git", ["remote", "get-url", "origin"], )); //TODO: Figure out cwd code
-    if (message.content.includes("@")) message.edit(sshToHttpsGitURL());
+    let origin;
+
+    sshToHttpsGitURL(spawn("git", ["remote", "get-url", "origin"], options, (error, stdout, stderr) => {
+        if (error) throw error;
+
+        origin = stdout;
+    })); //TODO: Figure out cwd code
+    if (message.content.includes("@")) newMsg.edit(sshToHttpsGitURL());
+    else newMsg.edit(origin);
 }, 0);

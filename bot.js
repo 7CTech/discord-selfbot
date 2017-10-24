@@ -17,7 +17,7 @@ global.config = config;
 let commands = new Map();
 
 config.commands.forEach(c => {
-    let command = require("./commands/" + c);
+    let command = require("./commands/" + c + ".js");
     commands.set(command.name, command.run);
 });
 
