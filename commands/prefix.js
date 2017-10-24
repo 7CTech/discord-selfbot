@@ -13,6 +13,6 @@ let prefix = new Command("prefix", (client, message) => {
             console.log("writing to config.json");
         });
     }
-});
+}, 1);
 
 module.exports = prefix;

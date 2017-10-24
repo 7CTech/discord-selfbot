@@ -1,5 +1,8 @@
 const Command = require("../command").Command;
 const util = require("../util");
+
+const { spawn } = require("child_process");
+
 require("path");
 
 const sshToHttpsGitURL = (url) => {
@@ -9,7 +12,11 @@ const sshToHttpsGitURL = (url) => {
 
 let repo = new Command("repo", (client, message) => {
     util.validateArgs(message.content, this.argCount);
-    let origin =
+    const defaults = {
+        cwd: __dirname,
+        env: process.env;
+    }
+    let origin = sshToHttpsGitURL(spawn("git", ["remote", "get-url", "origin"], )); //TODO: Figure out cwd code
     if (message.content.includes("@")) message.edit(sshToHttpsGitURL());
 
 }, 0);

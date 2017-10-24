@@ -1,8 +1,7 @@
 const moment = require("moment-timezone");
+const Command = require("../command").Command;
 
-module.exports = {
-  name: "time",
-  run: (client, message) => {
-      
-  }
-};
+let time = new Command("time", (client, message) => {
+
+}, 1);
+module.exports = time;

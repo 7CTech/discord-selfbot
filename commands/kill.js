@@ -1,7 +1,8 @@
-module.exports = {
-    name: "kill",
-    run: (client, message) => {
-        console.log("kill called");
-        client.destroy();
-    }
-};
+const Command = require("../command").Command;
+
+let kill = new Command("kill", (client, message) => {
+    message.delete();
+    client.destroy();
+}, 0);
+
+module.exports = kill;
