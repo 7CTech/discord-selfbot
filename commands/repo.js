@@ -7,7 +7,7 @@ require("path");
 
 const sshToHttpsGitURL = (url) => {
     if (!url.includes("@")) return url;
-
+    return url.replace(":", "/").substr(url.find("@"));
 };
 
 let repo = new Command("repo", (client, message) => {
@@ -21,7 +21,6 @@ let repo = new Command("repo", (client, message) => {
 
     sshToHttpsGitURL(spawn("git", ["remote", "get-url", "origin"], options, (error, stdout, stderr) => {
         if (error) throw error;
-
         origin = stdout;
     })); //TODO: Figure out cwd code
     if (message.content.includes("@")) newMsg.edit(sshToHttpsGitURL());

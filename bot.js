@@ -13,6 +13,7 @@ const global = require("./global.js");
 const mentionStrings = require("./mention-strings.json");
 const secrets = require("./secrets.json");
 global.config = config;
+global.secrets = secrets;
 
 let commands = new Map();
 

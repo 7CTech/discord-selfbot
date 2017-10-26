@@ -1,5 +1,6 @@
 let global = {
-    config: {}
+    config: {},
+    secrets: {}
 };
 
 module.exports = global;
