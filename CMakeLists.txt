@@ -19,8 +19,8 @@ set(CMAKE_C_FLAGS_DEBUG "-g -O0")
 find_package(Qt5 REQUIRED COMPONENTS Core DBus)
 
 set(SOURCE_FILES
-        native/currently-playing.cc
-        native/util.cc native/util.hh)
+        src/native/currently-playing.cc
+        src/native/util.cc src/native/util.hh)
         #bot.js
         #mention-strings.json
         #package-lock.json

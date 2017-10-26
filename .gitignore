@@ -1,6 +1,6 @@
 login.js
 node_modules/
-secrets.json
+src/secrets.json
 .idea/
 cmake-build-*/
 build/

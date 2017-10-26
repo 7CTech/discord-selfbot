@@ -1,10 +1,10 @@
-const global = require("../global.js");
-const fs = require("fs");
-require("path"); //for __dirname
+const global = require("../global");
+import * as fs from "fs";
 
-const Command = require("../command").Command;
+import {Command} from "../command";
+import {Client, Message} from "discord.js"
 
-let prefix = new Command("prefix", (client, message) => {
+let prefix:Command = new Command("prefix", (client: Client, message: Message) => {
     let newPrefix = message.content.split(" ")[1];
     if (newPrefix !== global.config.prefix) {
         global.config.prefix = newPrefix;
@@ -14,5 +14,3 @@ let prefix = new Command("prefix", (client, message) => {
         });
     }
 }, 1);
-
-module.exports = prefix;

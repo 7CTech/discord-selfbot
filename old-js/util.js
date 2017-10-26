@@ -1,4 +1,4 @@
-const global = require("./global.js");
+const global = require("../src/global.js");
 
 module.exports = {
     strIncludes: (str, includes) => {

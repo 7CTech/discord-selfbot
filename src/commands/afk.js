@@ -1,5 +1,5 @@
-const Command = require("../command.js").Command;
-const util = require("../util.js");
+const Command = require("../../old-js/command.js").Command;
+const util = require("../../old-js/util.js");
 
 const argCount = 1;
 

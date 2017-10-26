@@ -5,7 +5,7 @@ const client = new Discord.Client({
 });
 
 /*Native*/
-const native_module = require("./build/Release/native_module");
+const native_module = require("../build/Release/native_module");
 
 /*Local files*/
 let config = require("./config.json");
@@ -23,7 +23,7 @@ config.commands.forEach(c => {
 });
 
 /*Local files with code*/
-let util = require("./util.js");
+let util = require("../old-js/util.js");
 
 /*Globals*/
 let oldGame;
