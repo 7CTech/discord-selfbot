@@ -12,7 +12,7 @@ const sshToHttpsGitURL = (url) => {
 
 let repo = new Command("repo", (client, message) => {
     let newMsg = message.reply(message.content); //TODO: REMOVE THIS WHEN SELFBOTTING
-    util.validateArgs(message.content, this.argCount);
+    util.validateArgs(message.content, argCount);
     const options = {
         cwd: __dirname,
         env: process.env

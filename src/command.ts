@@ -15,7 +15,11 @@ export class Command {
         return this._name;
     }
 
-    run(client: Client, message: Message) {
+    get argCount():number {
+        return this._argCount;
+    }
+
+    async run(client: Client, message: Message) {
         return this._func(client, message);
     }
 }

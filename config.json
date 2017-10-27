@@ -4,11 +4,5 @@
     "kill",
     "time",
     "prefix"
-  ],
-  "validArgTypes": [
-    "int",
-    "string",
-    "double",
-    "null"
   ]
 }

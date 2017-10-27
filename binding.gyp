@@ -3,9 +3,9 @@
 		{
 			"target_name": "native_module",
 			"sources": [
-				"native/currently-playing.cc",
-				"native/util.cc",
-				"native/util.hh"
+				"src/native/currently-playing.cc",
+				"src/native/util.cc",
+				"src/native/util.hh"
 			],
 			"include_dirs": [
 				"/usr/include/qt",

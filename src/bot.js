@@ -8,10 +8,10 @@ const client = new Discord.Client({
 const native_module = require("../build/Release/native_module");
 
 /*Local files*/
-let config = require("./config.json");
+let config = require("../config.json");
 const global = require("./global.js");
 const mentionStrings = require("./mention-strings.json");
-const secrets = require("./secrets.json");
+const secrets = require("../secrets.json");
 global.config = config;
 global.secrets = secrets;
 
