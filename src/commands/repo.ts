@@ -4,6 +4,7 @@ import * as util from "../util"
 
 import {ChildProcess, spawn, SpawnOptions} from "child_process"
 import * as path from "path";
+import {isArray} from "util";
 
 function sshToHttpsGitURL(url: string) {
     if (!url.includes("@") && !url.includes(":")) return false;
@@ -11,10 +12,12 @@ function sshToHttpsGitURL(url: string) {
 }
 
 let repo:Command = new Command("repo", async (client: Client, message: Message) => {
-    let newMsg: Message = await message.reply(message.content).then((value: Message) => {
-        newMsg = value
-    }); //TODO: REMOVE THIS WHEN SELFBOTTING
+    let newMsg: Message | Message[] = await message.reply(message.content); //TODO: REMOVE THIS WHEN SELFBOTTING
+
+    if (!newMsg || isArray(newMsg)) return;
+
     util.validateArgs(message.content, this._argCount);
+
     const options:SpawnOptions = {
         cwd: __dirname,
         env: process.env
@@ -33,7 +36,7 @@ let repo:Command = new Command("repo", async (client: Client, message: Message) 
     });
 
     gitOutput.on("close", (code: number) => {
-        console.log("gitOuput: closed with code " + code);
+        console.log("gitOutput: closed with code " + code);
     });
 
     if (origin === "") {

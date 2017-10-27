@@ -1,5 +1,5 @@
-const Command = require("../command").Command;
-const util = require("../util");
+const Command = require("../src/command").Command;
+const util = require("../src/util");
 
 const { spawn } = require("child_process");
 

@@ -1,4 +1,4 @@
-import * as util from "../util"
+import * as util from "../util.js"
 import {Command} from "../command"
 import {Client, Message} from "discord.js"
 
