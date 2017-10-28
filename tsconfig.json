@@ -3,7 +3,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "module": "es6",
-    "target": "es2016",
+    "target": "es2015",
     "preserveConstEnums": true
   },
   "include": [

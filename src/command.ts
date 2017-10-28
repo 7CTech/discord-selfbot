@@ -1,4 +1,3 @@
-/*tslint:esversion:6*/
 import {Message, Client} from "discord.js";
 
 export class Command {

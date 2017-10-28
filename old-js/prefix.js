@@ -1,4 +1,4 @@
-const global = require("../src/global.js");
+const global = require("./global.js");
 const fs = require("fs");
 require("path"); //for __dirname
 

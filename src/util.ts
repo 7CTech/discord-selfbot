@@ -1,5 +1,5 @@
 import {Message} from "discord.js";
-const globals = require("./global.js");
+import {globals} from "./globals";
 
 export function strIncludes(str: string, includes: string[]) {
     for (let include in includes) {

@@ -1,7 +1,7 @@
 const moment = require("moment-timezone");
 let printf = require("printf");
 
-const global = require("../src/global.js");
+const global = require("../old-js/global.js");
 
 
 const args = process.argv.slice(2);
