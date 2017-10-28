@@ -15,3 +15,8 @@ export function getCommand(messageContent: string) {
 export function validateArgs(messageContent: string, argCount: number) {
     return messageContent.split(" ").length - 1 === argCount;
 }
+
+export function getArgAtPosition(messageContent: string, argPos: number) {
+    const split:Array<string> = messageContent.split(" ");
+    return (split.length <= argPos)  ? "" :  split[argPos];
+}
