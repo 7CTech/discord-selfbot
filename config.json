@@ -2,7 +2,8 @@
   "prefix": "!",
   "commands": [
     "kill",
-    "time",
-    "prefix"
+    "prefix",
+    "purge",
+    "repo"
   ]
 }

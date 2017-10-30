@@ -1,4 +1,5 @@
 import {Message, Client} from "discord.js";
+import * as util from "./util";
 
 export class Command {
     _name: string;
@@ -10,15 +11,16 @@ export class Command {
         this._argCount = argCount;
     }
 
-    get name():string {
+    get name(): string {
         return this._name;
     }
 
-    get argCount():number {
+    get argCount(): number {
         return this._argCount;
     }
 
     async run(client: Client, message: Message) {
+        util.validateArgs(message.content, this.argCount);
         return this._func(client, message);
     }
 }

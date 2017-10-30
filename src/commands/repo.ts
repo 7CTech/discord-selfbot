@@ -16,8 +16,6 @@ let repo:Command = new Command("repo", async (client: Client, message: Message) 
 
     if (!newMsg || isArray(newMsg)) return;
 
-    util.validateArgs(message.content, this._argCount);
-
     const options:SpawnOptions = {
         cwd: __dirname,
         env: process.env
