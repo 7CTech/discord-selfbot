@@ -1,4 +1,4 @@
-const globals = require("./global.js");
+import * as globals from "./globals";
 export function strIncludes(str, includes) {
     for (let include in includes) {
         if (str.includes(include))
@@ -11,4 +11,8 @@ export function getCommand(messageContent) {
 }
 export function validateArgs(messageContent, argCount) {
     return messageContent.split(" ").length - 1 === argCount;
+}
+export function getArgAtPosition(messageContent, argPos) {
+    const split = messageContent.split(" ");
+    return (split.length <= argPos) ? "" : split[argPos];
 }

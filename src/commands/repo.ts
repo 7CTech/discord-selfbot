@@ -9,7 +9,7 @@ function sshToHttpsGitURL(url: string) {
     return "http://" + url.replace(":", "/").substr(url.indexOf("@"));
 }
 
-let repo:Command = new Command("repo", async (client: Client, message: Message) => {
+let repo:Command = new Command("repo", (client: Client, message: Message) => {
     const options:SpawnOptions = {
         cwd: __dirname,
         env: process.env

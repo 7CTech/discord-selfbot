@@ -6,6 +6,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import * as util from "./util";
 export class Command {
     constructor(name, func, argCount) {
         this._name = name;
@@ -20,6 +21,7 @@ export class Command {
     }
     run(client, message) {
         return __awaiter(this, void 0, void 0, function* () {
+            util.validateArgs(message.content, this.argCount);
             return this._func(client, message);
         });
     }
