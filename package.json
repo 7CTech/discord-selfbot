@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^8.0.47",
+    "@types/node": "^8.0.51",
     "discord.js": "^11.2.1",
     "erlpack": "^0.1.2",
-    "moment-timezone": "^0.5.13",
+    "moment-timezone": "^0.5.14",
     "printf": "^0.2.5",
     "uws": "^8.14.1"
   }
