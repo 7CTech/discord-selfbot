@@ -1,4 +1,4 @@
-import * as globals from "./globals";
+var getConfig = globals.getConfig;
 export function strIncludes(str, includes) {
     for (let include in includes) {
         if (str.includes(include))
@@ -7,7 +7,7 @@ export function strIncludes(str, includes) {
     return false;
 }
 export function getCommand(messageContent) {
-    return messageContent.split(" ")[0].substr(globals.config.prefix.length);
+    return messageContent.split(" ")[0].substr(getConfig().prefix.length);
 }
 export function validateArgs(messageContent, argCount) {
     return messageContent.split(" ").length - 1 === argCount;

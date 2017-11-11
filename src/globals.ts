@@ -1,11 +1,13 @@
-export interface Secrets {
-    token: string;
-    id: string;
-}
-
-export interface Config {
+interface Config {
     prefix: string;
     commands: string[];
 }
 
-export let config: Config;
+let config: Config;
+
+namespace globals {
+    config = require("../config.json");
+    export function getConfig() {
+        return config;
+    }
+}

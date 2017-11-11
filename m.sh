@@ -5,7 +5,7 @@ if [[ "${1}" == "mjs" ]]; then
         mv ${file} ${file: 0 : -2}mjs
     done
 elif [[ "${1}" == "clean" ]]; then
-    for file in $(find "./src" | grep ".js$"); do
+    for file in $(find "./src" | grep ".mjs$"); do
         rm ${file}
     done
 elif [[ "${1}" == "run" ]]; then

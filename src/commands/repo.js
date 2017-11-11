@@ -1,11 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { Command } from "../command";
 import { spawn } from "child_process";
 function sshToHttpsGitURL(url) {
@@ -13,7 +5,7 @@ function sshToHttpsGitURL(url) {
         return false;
     return "http://" + url.replace(":", "/").substr(url.indexOf("@"));
 }
-let repo = new Command("repo", (client, message) => __awaiter(this, void 0, void 0, function* () {
+let repo = new Command("repo", (client, message) => {
     const options = {
         cwd: __dirname,
         env: process.env
@@ -38,4 +30,4 @@ let repo = new Command("repo", (client, message) => __awaiter(this, void 0, void
         message.edit(sshToHttpsGitURL(origin));
     else
         message.edit(origin);
-}), 0);
+}, 0);

@@ -9,8 +9,8 @@ const native_module = require("../build/Release/native_module");
 
 /*Local files*/
 let config = require("../config.json");
-const global = require("../old-js/global.js");
-const mentionStrings = require("./mention-strings.json");
+const global = require("./global.js");
+const mentionStrings = require("../src/mention-strings.json");
 const secrets = require("../secrets.json");
 global.config = config;
 global.secrets = secrets;
@@ -23,7 +23,7 @@ config.commands.forEach(c => {
 });
 
 /*Local files with code*/
-let util = require("../old-js/util.js");
+let util = require("./util.js");
 
 /*Globals*/
 let oldGame;

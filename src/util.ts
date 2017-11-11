@@ -1,5 +1,5 @@
 import {Message} from "discord.js";
-import *  as globals from "./globals";
+import getConfig = globals.getConfig;
 
 export function strIncludes(str: string, includes: string[]) {
     for (let include in includes) {
@@ -9,7 +9,7 @@ export function strIncludes(str: string, includes: string[]) {
 }
 
 export function getCommand(messageContent: string) {
-    return messageContent.split(" ")[0].substr(globals.config.prefix.length);
+    return messageContent.split(" ")[0].substr(getConfig().prefix.length);
 }
 
 export function validateArgs(messageContent: string, argCount: number) {
