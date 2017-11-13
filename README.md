@@ -9,5 +9,6 @@
 1. Download the repo
 2. Edit `binding.gyp` to include the correct locations of QtCore and QtDBus
 2. Run `npm install`
+3. Run `tsc`
 3. Copy `secrets.default.json` to `secrets.json` and fill in the fields
-4. Run `node bot.js`
+4. Run `node src/bot.js`

@@ -1,3 +1,4 @@
+##DO NOT USE THIS. IT IS AN EXPERIMENTAL SHELL SCRIPT
 #!/bin/bash
 
 function mjs() {
