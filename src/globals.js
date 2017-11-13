@@ -1,9 +1,7 @@
-let config;
-var globals;
-(function (globals) {
-    config = require("../config.json");
-    function getConfig() {
-        return config;
-    }
-    globals.getConfig = getConfig;
-})(globals || (globals = {}));
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+let globalConfig = require("../config.json");
+function getConfig() {
+    return this.globalConfig;
+}
+exports.getConfig = getConfig;

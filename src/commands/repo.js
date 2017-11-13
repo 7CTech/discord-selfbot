@@ -1,17 +1,19 @@
-import { Command } from "../command";
-import { spawn } from "child_process";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const command_1 = require("../command");
+const child_process_1 = require("child_process");
 function sshToHttpsGitURL(url) {
     if (!url.includes("@") && !url.includes(":"))
         return false;
     return "http://" + url.replace(":", "/").substr(url.indexOf("@"));
 }
-let repo = new Command("repo", (client, message) => {
+let repo = new command_1.Command("repo", (client, message) => {
     const options = {
         cwd: __dirname,
         env: process.env
     };
     let origin = "";
-    let gitOutput = spawn("git", ["remote", "get-url", "origin"], options);
+    let gitOutput = child_process_1.spawn("git", ["remote", "get-url", "origin"], options);
     gitOutput.stdout.on("data", (data) => {
         console.log("gitOutput (stdout): " + data);
         origin = data;

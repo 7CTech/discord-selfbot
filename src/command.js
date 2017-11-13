@@ -1,5 +1,7 @@
-import * as util from "./util";
-export class Command {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util = require("./util");
+class Command {
     constructor(name, func, argCount) {
         this._name = name;
         this._func = func;
@@ -16,3 +18,4 @@ export class Command {
         return this._func(client, message);
     }
 }
+exports.Command = Command;

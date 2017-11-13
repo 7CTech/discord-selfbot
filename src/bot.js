@@ -1,14 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 //Discord
-import { Client } from "discord.js";
+const discord_js_1 = require("discord.js");
+const globals_1 = require("./globals");
 //Globals
-var getConfig = globals.getConfig;
+//import getConfig = globals.getConfig;
+//globals.config = require("../config.json");
 //Native
-import * as NativeModule from "./native_module";
-import * as util from "./util";
+const NativeModule = require("./native_module");
+const util = require("./util");
 ///////////////////////////////////////////////////////////////////////
-const client = new Client({ sync: true });
+const client = new discord_js_1.Client({ sync: true });
 let commands = new Map();
-getConfig().commands.forEach((c) => {
+globals_1.getConfig().commands.forEach((c) => {
     let command = require("./commands/" + c);
     commands.set(command.name, command.run);
 });
@@ -23,7 +27,7 @@ client.on("message", (message) => {
     if (message.author.id !== client.user.id)
         return;
     console.log(message.content);
-    if (message.content.startsWith(getConfig().prefix) && commands.has(util.getCommand(message.content))) {
+    if (message.content.startsWith(globals_1.getConfig().prefix) && commands.has(util.getCommand(message.content))) {
         commands.get(util.getCommand(message.content))(client, message);
     }
 });

@@ -1,6 +1,8 @@
-import { Command } from "../command";
-import * as util from "../util";
-let purge = new Command("purge", (client, message) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const command_1 = require("../command");
+const util = require("../util");
+let purge = new command_1.Command("purge", (client, message) => {
     const channel = message.channel;
     let options = {
         max: parseInt(util.getArgAtPosition(message.content, 1)),

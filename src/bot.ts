@@ -6,8 +6,10 @@ import Timer = NodeJS.Timer;
 //Discord
 import {Client, Message} from "discord.js";
 
+import {getConfig} from "./globals";
 //Globals
-import getConfig = globals.getConfig;
+//import getConfig = globals.getConfig;
+//globals.config = require("../config.json");
 
 //Native
 import * as NativeModule from "./native_module"
@@ -15,7 +17,6 @@ import * as NativeModule from "./native_module"
 //Other
 import {Command} from "./command";
 import * as util from "./util";
-
 ///////////////////////////////////////////////////////////////////////
 
 const client: Client = new Client({sync: true});

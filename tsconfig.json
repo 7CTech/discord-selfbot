@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "moduleResolution": "node",
-    "module": "es6",
+    "module": "commonjs",
     "target": "es2015",
     "preserveConstEnums": true
   },

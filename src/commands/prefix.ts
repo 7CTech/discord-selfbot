@@ -1,8 +1,9 @@
-import getConfig = globals.getConfig;
+import {getConfig} from "../globals";
 import * as fs from "fs";
 
 import {Command} from "../command";
 import {Client, Message} from "discord.js"
+
 
 export let prefix:Command = new Command("prefix", (client: Client, message: Message) => {
     let newPrefix = message.content.split(" ")[1];

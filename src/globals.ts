@@ -1,13 +1,10 @@
-interface Config {
+interface GlobalConfig {
     prefix: string;
     commands: string[];
 }
 
-let config: Config;
+let globalConfig: GlobalConfig = require("../config.json");
 
-namespace globals {
-    config = require("../config.json");
-    export function getConfig() {
-        return config;
-    }
+export function getConfig() {
+    return this.globalConfig;
 }
