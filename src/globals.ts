@@ -6,5 +6,5 @@ interface GlobalConfig {
 let globalConfig: GlobalConfig = require("../config.json");
 
 export function getConfig() {
-    return this.globalConfig;
+    return globalConfig;
 }
