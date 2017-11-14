@@ -1,20 +1,17 @@
-///<reference path="globals.ts"/>
 //////////////////////////////////////////////////////////////////////
-//Node
+/*Node*/
 import Timer = NodeJS.Timer;
 
-//Discord
+/*Discord*/
 import {Client, Message} from "discord.js";
 
+/*Globals*/
 import {getConfig} from "./globals";
-//Globals
-//import getConfig = globals.getConfig;
-//globals.config = require("../config.json");
 
-//Native
+/*Native*/
 import * as NativeModule from "./native_module"
 
-//Other
+/*Other*/
 import {Command} from "./command";
 import * as util from "./util";
 ///////////////////////////////////////////////////////////////////////
@@ -24,10 +21,19 @@ const client: Client = new Client({sync: true});
 
 let commands: Map<string, (Client, Message) => void> = new Map<string, (Client, Message) => void>();
 
-getConfig().commands.forEach((c) => {
-    let command: Command = require("./commands/" + c);
-    commands.set(command.name, command.run);
+import {kill} from "./commands/kill";
+import {prefix} from "./commands/prefix";
+import {purge} from "./commands/purge";
+import {repo} from "./commands/repo";
+import {time} from "./commands/time";
+
+let commandsArray:Command[] = [kill, prefix, purge, repo, time];
+
+commandsArray.forEach((c: Command) => {
+    if (getConfig().commands.indexOf(c.name) == -1) return;
+    commands.set(c.name, c.run);
 });
+
 
 let oldGame: string;
 let gameToSongInterval: Timer;
@@ -36,12 +42,17 @@ client.on("ready", () => {
     console.log("logged in as " + client.user.username + "#" + client.user.discriminator);
     client.user.presence.game !== null ? oldGame = client.user.presence.game.name : oldGame = "";
     gameToSongInterval = setInterval(setGameToSong, 10*1000);
+    console.log("prefix: " + getConfig().prefix);
+
 });
 
 client.on("message", (message) => {
     if (message.author.id !== client.user.id) return;
     console.log(message.content);
+    console.log(util.getCommand(message.content));
     if (message.content.startsWith(getConfig().prefix) && commands.has(util.getCommand(message.content))) {
+        util.logCommand(message);
+        console.log("command: " + util.getCommand(message.content));
         commands.get(util.getCommand(message.content))(client, message);
     }
 });

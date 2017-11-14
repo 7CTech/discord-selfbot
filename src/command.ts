@@ -9,6 +9,7 @@ export class Command {
         this._name = name;
         this._func = func;
         this._argCount = argCount;
+
     }
 
     get name(): string {
