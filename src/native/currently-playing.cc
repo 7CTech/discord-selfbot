@@ -26,7 +26,8 @@ namespace SelfBot {
             if (!QDBusConnection::sessionBus().isConnected()) {
                 std::cout << "not connected to the session bus" << std::endl;
 #ifndef STANDLONE
-                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "not connected to the session bus")));
+                args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, ""));
+                return;//isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "not connected to the session bus")));
 #else
                 return "";
 #endif
@@ -47,7 +48,8 @@ namespace SelfBot {
             if (services.empty()) {
                 std::cout << "No valid services, please start a media player" << std::endl;
 #ifndef STANDLONE
-                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "no running media players")));
+                args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, ""));
+                return;//isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "no running media players")));
 #endif
             } else if (services.size() == 1) service = services[0];
             else {
@@ -61,7 +63,8 @@ namespace SelfBot {
             if (service.empty()) {
                 std::cout << "Issue finding service" << std::endl;
 #ifndef STANDLONE
-                isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "issue findind service")));
+                args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, ""));
+                return;//isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "issue findind service")));
 #endif
             }
 
