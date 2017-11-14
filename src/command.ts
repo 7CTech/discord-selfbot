@@ -21,7 +21,7 @@ export class Command {
     }
 
     run(client: Client, message: Message) {
-        util.validateArgs(message.content, this.argCount);
+        util.validateArgs(message.content, this._argCount);
         return this._func(client, message);
     }
 }

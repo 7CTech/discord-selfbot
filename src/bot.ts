@@ -19,7 +19,7 @@ import * as util from "./util";
 const client: Client = new Client({sync: true});
 
 
-let commands: Map<string, (Client, Message) => void> = new Map<string, (Client, Message) => void>();
+let commands: Map<string, Command> = new Map<string, Command>();
 
 import {kill} from "./commands/kill";
 import {prefix} from "./commands/prefix";
@@ -31,7 +31,7 @@ let commandsArray:Command[] = [kill, prefix, purge, repo, time];
 
 commandsArray.forEach((c: Command) => {
     if (getConfig().commands.indexOf(c.name) == -1) return;
-    commands.set(c.name, c.run);
+    commands.set(c.name, c);
 });
 
 
@@ -49,11 +49,9 @@ client.on("ready", () => {
 client.on("message", (message) => {
     if (message.author.id !== client.user.id) return;
     console.log(message.content);
-    console.log(util.getCommand(message.content));
     if (message.content.startsWith(getConfig().prefix) && commands.has(util.getCommand(message.content))) {
         util.logCommand(message);
-        console.log("command: " + util.getCommand(message.content));
-        commands.get(util.getCommand(message.content))(client, message);
+        commands.get(util.getCommand(message.content)).run(client, message);
     }
 });
 
