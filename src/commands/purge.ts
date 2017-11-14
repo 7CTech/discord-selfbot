@@ -17,11 +17,11 @@ export let purge:Command = new Command("purge", (client: Client, message: Messag
         return m.author.id === client.user.id
     }, options);
 
-    console.log(collector.collected)
+    //console.log(collector.collected);
 
-    collector.on("collect", (collect: Message) => {
+    /*collector.on("collect", (collect: Message) => {
         console.log("collectd: " + collect.content);
-    });
+    });*/
 
     collector.on("end", (collected: Collection<Snowflake, Message>, reason: string) => {
         console.log("end: " + reason);
@@ -29,5 +29,7 @@ export let purge:Command = new Command("purge", (client: Client, message: Messag
             console.log("deleting: " + item.content);
             item.delete();
         })
-    })
+    });
+
+    client.setTimeout(message.delete, 5);
 }, 1);

@@ -21,7 +21,7 @@ export class Command {
     }
 
     run(client: Client, message: Message) {
-        util.validateArgs(message.content, this._argCount);
+        if (!util.validateArgs(message.content, this._argCount)) return util.incorrectArgCount(client, message, message.content.split(" ").length - 1, this._argCount);
         return this._func(client, message);
     }
 }

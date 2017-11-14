@@ -43,7 +43,6 @@ client.on("ready", () => {
     client.user.presence.game !== null ? oldGame = client.user.presence.game.name : oldGame = "";
     gameToSongInterval = setInterval(setGameToSong, 10*1000);
     console.log("prefix: " + getConfig().prefix);
-
 });
 
 client.on("message", (message) => {
