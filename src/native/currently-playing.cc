@@ -46,7 +46,7 @@ namespace SelfBot {
             std::string service;
 
             if (services.empty()) {
-                std::cout << "No valid services, please start a media player" << std::endl;
+                //std::cout << "No valid services, please start a media player" << std::endl;
 #ifndef STANDLONE
                 args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, ""));
                 return;//isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, "no running media players")));

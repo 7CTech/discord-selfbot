@@ -20,7 +20,7 @@ export class Command {
         return this._argCount;
     }
 
-    run(client: Client, message: Message) {
+    async run(client: Client, message: Message) {
         if (!util.validateArgs(message.content, this._argCount)) return util.incorrectArgCount(client, message, message.content.split(" ").length - 1, this._argCount);
         return this._func(client, message);
     }

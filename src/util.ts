@@ -2,6 +2,7 @@ import {Message, Client} from "discord.js";
 import {getConfig} from "./globals";
 
 import * as fs from "fs";
+import * as mkdirp from "mkdirp"
 
 export function strIncludes(str: string, includes: string[]):boolean {
     for (let include in includes) {
@@ -32,7 +33,7 @@ export function incorrectArgCount(client: Client, message: Message, currentArgCo
 }
 
 export function logCommand(message: Message):void {
-    let logLine:string = "";
+    /*let logLine:string = "";
 
     logLine.concat("[");
     logLine.concat(message.createdAt.toLocaleTimeString());
@@ -46,7 +47,7 @@ export function logCommand(message: Message):void {
     logLine.concat(message.author.username);
     logLine.concat(")");
 
-    if (!fs.existsSync("~/.selfbot-logs")) fs.mkdirSync("~/.selfbot-logs", 755);
+    mkdirp.sync("~/.selfbot-logs", 755);
 
-    fs.appendFile(getConfig().logDir + "/" + message.createdAt.toLocaleDateString(), logLine, {mode: 644}, (() => {}));
+    fs.appendFile(getConfig().logDir + "/" + message.createdAt.toLocaleDateString(), logLine, {mode: 644}, (() => {}));*/
 }

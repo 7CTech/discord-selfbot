@@ -4,7 +4,8 @@
     "kill",
     "prefix",
     "purge",
-    "repo"
+    "repo",
+    "time"
   ],
   "logDir": "~/.selfbot-logs"
 }

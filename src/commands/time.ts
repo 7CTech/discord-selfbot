@@ -1,19 +1,40 @@
-import {getTBAToken} from "../globals";
+import {getTBAToken, getMapsKey} from "../globals";
 import {Command} from "../command";
 import {Client, Message} from "discord.js"
 import * as util from "../util"
 import * as request from  "request";
 import {team} from "../team";
-import moment = require("moment");
-import {Moment} from "moment";
+import * as moment from "moment-timezone";
+import * as googleMaps from "@google/maps"
 
-export let time:Command = new Command("time", (client: Client, message: Message) => {
+interface ClientResponse {
+    headers: Object,
+    json: Object,
+    status: number
+}
+
+export let time:Command = new Command("time", async (client: Client, message: Message) => {
     let team:string = util.getArgAtPosition(message.content, 0);
 
-    request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
+    let maps = googleMaps.createClient({
+        key: getMapsKey(),
+        Promise: Promise
+    });
+
+
+    let location: string = "";
+
+
+    await request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
         .on("data", (data => {
             let teamData:team = JSON.parse(data.toString());
-            let time: Moment = moment(moment.now()).tz(teamData.country + "/" + teamData.city);
-            message.edit(time.format("HH:mm") + " (UTC" + time.format("Z") + ")");
+            location = teamData.country + "/" + teamData.city;
         }));
+    if (location === "") {
+        message.edit("Invalid TBA location data");
+        return;
+    }
+    maps.geocode({address: location}, (error: any, response: ClientResponse) => {
+
+    });
 }, 1);

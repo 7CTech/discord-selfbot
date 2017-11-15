@@ -2,8 +2,7 @@ import {Command} from "../command"
 import {Client, Message, TextChannel, DMChannel, GroupDMChannel, MessageCollectorOptions, Collection, MessageCollector, Snowflake} from "discord.js"
 import * as util from "../util";
 
-export let purge:Command = new Command("purge", (client: Client, message: Message) => {
-    console.log("max: " + parseInt(util.getArgAtPosition(message.content, 0)));
+export let purge:Command = new Command("purge", async (client: Client, message: Message) => {
     const channel: TextChannel | DMChannel | GroupDMChannel = message.channel;
 
     let options: MessageCollectorOptions = {
@@ -16,11 +15,11 @@ export let purge:Command = new Command("purge", (client: Client, message: Messag
         return m.author.id === client.user.id
     }, options);
 
-    collector.on("end", (collected: Collection<Snowflake, Message>, reason: string) => {
+    await Promise.all([collector.on("end", (collected: Collection<Snowflake, Message>, reason: string) => {
         console.log("end: " + reason);
         collected.array().forEach((item: Message) => {
             console.log("deleting: " + item.content);
             item.delete();
         })
-    });
+    })]);
 }, 1);
