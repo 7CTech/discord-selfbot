@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/moment-timezone": "^0.5.1",
-    "@types/node": "^8.0.51",
+    "@types/node": "^8.0.52",
     "@types/request": "^2.0.8",
     "discord.js": "^11.2.1",
     "erlpack": "^0.1.2",
