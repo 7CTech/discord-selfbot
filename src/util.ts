@@ -20,12 +20,11 @@ export function validateArgs(messageContent: string, argCount: number):boolean {
 
 export function getArgAtPosition(messageContent: string, argPos: number):string {
     const split:Array<string> = messageContent.split(" ");
-    return (split.length <= argPos)  ? "" :  split[argPos];
+    return (split.length <= argPos)  ? "" :  split[argPos + 1];
 }
 
 export function incorrectArgCount(client: Client, message: Message, currentArgCount: number, expectedArgCount: number):void {
-    message.edit("Incorrect arg count. Expected " + expectedArgCount + ", got " + currentArgCount);
-    client.setTimeout(message.delete, 5 * 1000);
+    message.edit("Incorrect arg count. Expected " + expectedArgCount + ", got " + currentArgCount).then(m => setTimeout(m.delete, 3 * 1000));
 }
 
 export function logCommand(message: Message):void {
@@ -43,7 +42,7 @@ export function logCommand(message: Message):void {
     logLine.concat(message.author.username);
     logLine.concat(")");
 
-    //fs.mkdir("~/.selfbot-logs", 755, (() => {}));
+    if (!fs.existsSync("~/.selfbot-logs")) fs.mkdirSync("~/.selfbot-logs", 755);
 
-    fs.appendFile(getConfig().logDir + "/" + message.createdAt.toLocaleDateString(), logLine, {mode: 644}, (() => {}))
+    fs.appendFile(getConfig().logDir + "/" + message.createdAt.toLocaleDateString(), logLine, {mode: 644}, (() => {}));
 }

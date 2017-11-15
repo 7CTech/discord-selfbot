@@ -9,7 +9,7 @@ export let prefix:Command = new Command("prefix", (client: Client, message: Mess
     if (newPrefix !== getConfig().prefix) {
         console.log("new prefix: " + newPrefix);
         getConfig().prefix = newPrefix;
-        fs.writeFile(__dirname + "/../../config.json" , JSON.stringify(getConfig(), null, 2), error => {
+        fs.writeFile("/../../config.json" , JSON.stringify(getConfig(), null, 2), error => {
             if (error) console.log(error);
             console.log("writing to config.json");
         });

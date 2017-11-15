@@ -5,7 +5,12 @@ interface GlobalConfig {
 }
 
 let globalConfig: GlobalConfig = require("../config.json");
+let tbaToken:string = require("../secrets.json").tba_token;
 
-export function getConfig() {
+export function getConfig(): GlobalConfig {
     return globalConfig;
+}
+
+export function getTBAToken(): string {
+    return tbaToken;
 }

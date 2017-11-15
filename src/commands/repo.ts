@@ -2,7 +2,6 @@ import {Command} from "../command"
 import {Client, Message} from "discord.js"
 
 import {ChildProcess, spawn, SpawnOptions} from "child_process"
-import * as path from "path";
 
 function sshToHttpsGitURL(url: string) {
     if (!url.includes("@") && !url.includes(":")) return false;
@@ -33,7 +32,7 @@ export let repo:Command = new Command("repo", (client: Client, message: Message)
 
     if (origin === "") {
         console.log("no repo");
-        message.edit("Unknown repo");
+        message.edit("Unknown repo").then(m => setTimeout(m.delete, 3 * 1000));
     } else if (origin.includes("@")) message.edit(sshToHttpsGitURL(origin));
     else message.edit(origin);
 }, 0);
