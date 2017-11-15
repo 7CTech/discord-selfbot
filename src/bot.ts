@@ -48,7 +48,9 @@ client.on("ready", () => {
 client.on("message", async (message) => {
     if (message.author.id !== client.user.id) return;
     console.log(message.content);
-    if (message.content.startsWith(getConfig().prefix) && commands.has(util.getCommand(message.content))) {
+    if (message.content.startsWith(getConfig().prefix) &&
+        commands.has(util.getCommand(message.content)) &&
+        commands.get(util.getCommand(message.content)).argCount == util.getArgCount(message.content)) {
         util.logCommand(message);
         commands.get(util.getCommand(message.content)).run(client, message);
     }

@@ -5,6 +5,7 @@ import * as util from "../util"
 import * as request from  "request";
 import {team} from "../team";
 import moment = require("moment");
+import {Moment} from "moment";
 
 export let time:Command = new Command("time", (client: Client, message: Message) => {
     let team:string = util.getArgAtPosition(message.content, 0);
@@ -12,6 +13,7 @@ export let time:Command = new Command("time", (client: Client, message: Message)
     request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
         .on("data", (data => {
             let teamData:team = JSON.parse(data.toString());
-            message.edit(moment(moment.now()).tz(teamData.country + "/" + teamData.city));
+            let time: Moment = moment(moment.now()).tz(teamData.country + "/" + teamData.city);
+            message.edit(time.format("HH:mm") + " (UTC" + time.format("Z") + ")");
         }));
 }, 1);
