@@ -19,19 +19,22 @@ import * as util from "./util";
 const client: Client = new Client({sync: true});
 
 
-let commands: Map<string, Command> = new Map<string, Command>();
+let commands: Map<string, Array<Command>> = new Map<string, Array<Command>>();
 
 import {kill} from "./commands/kill";
-import {prefix} from "./commands/prefix";
+//import {prefix} from "./commands/prefix";
 import {purge} from "./commands/purge";
 import {repo} from "./commands/repo";
 import {time} from "./commands/time";
+import {configSet, configGet} from "./commands/config"
 
-let commandsArray:Command[] = [kill, prefix, purge, repo, time];
+
+let commandsArray:Command[] = [kill, /*prefix,*/ purge, repo, time, configGet, configSet];
 
 commandsArray.forEach((c: Command) => {
     if (getConfig().commands.indexOf(c.name) == -1) return;
-    commands.set(c.name, c);
+    if (commands.has(c.name)) commands.set(c.name, commands.get(c.name).concat([c]));
+    else commands.set(c.name, [c]);
 });
 
 
@@ -49,10 +52,13 @@ client.on("message", async (message) => {
     if (message.author.id !== client.user.id) return;
     console.log(message.content);
     if (message.content.startsWith(getConfig().prefix) &&
-        commands.has(util.getCommand(message.content)) &&
-        commands.get(util.getCommand(message.content)).argCount == util.getArgCount(message.content)) {
-        util.logCommand(message);
-        commands.get(util.getCommand(message.content)).run(client, message);
+        commands.has(util.getCommand(message.content))) {
+        commands.get(util.getCommand(message.content)).forEach((c:Command) => {
+            if (c.argCount === util.getArgCount(message.content)) {
+                util.logCommand(message);
+                c.run(client, message);
+            }
+        });
     }
 });
 

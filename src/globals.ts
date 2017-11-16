@@ -1,4 +1,4 @@
-interface GlobalConfig {
+export interface GlobalConfig {
     prefix: string;
     commands: string[];
     logDir: string;

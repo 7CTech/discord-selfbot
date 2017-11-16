@@ -2,10 +2,10 @@
   "prefix": "~",
   "commands": [
     "kill",
-    "prefix",
     "purge",
     "repo",
-    "time"
+    "time",
+    "config"
   ],
   "logDir": "~/.selfbot-logs",
   "purgeLimit": 100

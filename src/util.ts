@@ -1,5 +1,5 @@
 import {Message, Client} from "discord.js";
-import {getConfig} from "./globals";
+import {getConfig, GlobalConfig} from "./globals";
 
 import * as fs from "fs";
 import * as mkdirp from "mkdirp"
@@ -50,4 +50,17 @@ export function logCommand(message: Message):void {
     mkdirp.sync("~/.selfbot-logs", 755);
 
     fs.appendFile(getConfig().logDir + "/" + message.createdAt.toLocaleDateString(), logLine, {mode: 644}, (() => {}));*/
+}
+
+export function updateConfig(key: string, newValue: any):boolean {
+    let config:GlobalConfig = getConfig();
+    let typedValue: typeof config[key];
+    if (newValue as (typeof  !== getConfig()[key]) {
+        getConfig()[key] = newValue;
+        fs.writeFile("/../../config.json" , JSON.stringify(getConfig(), null, 2), error => {
+            if (error) console.log(error);
+            console.log("writing to config.json");
+        });
+        return true;
+    } else return false;
 }
