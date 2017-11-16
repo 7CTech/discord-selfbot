@@ -1,4 +1,4 @@
-export interface team {
+export interface Team {
     "address": string,
     "city": string,
     "country": string,
@@ -20,4 +20,7 @@ export interface team {
     "state_prov": string,
     "team_number": number,
     "website"?: string
+    "Errors"?: {
+        "team_id"?: string
+    }[]
 }

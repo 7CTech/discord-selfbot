@@ -7,5 +7,6 @@
     "repo",
     "time"
   ],
-  "logDir": "~/.selfbot-logs"
+  "logDir": "~/.selfbot-logs",
+  "purgeLimit": 100
 }

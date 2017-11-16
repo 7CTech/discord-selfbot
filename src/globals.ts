@@ -2,6 +2,7 @@ interface GlobalConfig {
     prefix: string;
     commands: string[];
     logDir: string;
+    purgeLimit: number;
 }
 
 let globalConfig: GlobalConfig = require("../config.json");

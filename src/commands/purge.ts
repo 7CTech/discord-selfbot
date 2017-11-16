@@ -1,25 +1,30 @@
 import {Command} from "../command"
 import {Client, Message, TextChannel, DMChannel, GroupDMChannel, MessageCollectorOptions, Collection, MessageCollector, Snowflake} from "discord.js"
 import * as util from "../util";
+import {getConfig} from "../globals";
 
 export let purge:Command = new Command("purge", async (client: Client, message: Message) => {
     const channel: TextChannel | DMChannel | GroupDMChannel = message.channel;
 
-    let options: MessageCollectorOptions = {
-        maxMatches: parseInt(util.getArgAtPosition(message.content, 0))
-    };
+    let max:number = parseInt(util.getArgAtPosition(message.content, 0)) + 1;
 
-    const collector = channel.createMessageCollector((m: Message) => {
-        console.log(m.author.id);
-        console.log(client.user.id);
-        return m.author.id === client.user.id
-    }, options);
+    if (isNaN(max)) {
+        message.edit("Invalid message count to delete");
+        return;
+    }
 
-    await Promise.all([collector.on("end", (collected: Collection<Snowflake, Message>, reason: string) => {
-        console.log("end: " + reason);
-        collected.array().forEach((item: Message) => {
-            console.log("deleting: " + item.content);
-            item.delete();
-        })
-    })]);
+    let deletedCount:number = -1;
+
+    let messages:Array<Message> = (await channel.fetchMessages({limit: getConfig().purgeLimit})).array();
+    let lastMessage:Message = messages[messages.length];
+    for (let i:number = 0; i < messages.length; i++) {
+        let m:Message = messages[i];
+        if (m.author.id === client.user.id) {
+            m.delete();
+            deletedCount += 1;
+        } if (deletedCount === max || m === lastMessage) {
+            channel.send("Deleted " + deletedCount + " messages");
+            return;
+        }
+    }
 }, 1);

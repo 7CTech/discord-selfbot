@@ -3,7 +3,7 @@ import {Command} from "../command";
 import {Client, Message} from "discord.js"
 import * as util from "../util"
 import * as request from  "request";
-import {team} from "../team";
+import {Team} from "../team";
 import * as moment from "moment-timezone";
 import * as googleMaps from "@google/maps"
 
@@ -41,17 +41,25 @@ export let time:Command = new Command("time", async (client: Client, message: Me
         key: getMapsKey(),
         Promise: Promise
     });
-    
+
+    let teamError:boolean = false;
+
     let location:string = await new Promise<string>((resolve, reject) => {
         request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
             .on("data", (async data => {
-                let teamData: team = JSON.parse(data.toString());
+                let teamData: Team = JSON.parse(data.toString());
+                if (teamData.hasOwnProperty("Errors")) reject("Error: " + teamData.Errors[0].team_id);
                 resolve(teamData.country + "/" + teamData.city);
             }));
+    }).catch<string>((reason:string):string => {
+        teamError = true;
+        message.edit(reason);
+        return reason;
     });
+    if (teamError) return;
 
     let latLng:number[] = await new Promise<number[]>((resolve, reject) => {
-        maps.geocode({address: location}, async (error: any, response: GeoCodeClientResponse) => {
+        maps.geocode({address: location}, (error: any, response: GeoCodeClientResponse) => {
             if (!error) {
                 resolve([response.json.results[0].geometry.location.lat, response.json.results[0].geometry.location.lng]);
             } else {
@@ -61,21 +69,13 @@ export let time:Command = new Command("time", async (client: Client, message: Me
         });
     });
 
-    let lat:number = latLng[0];
-    let lng:number = latLng[1];
-
     let zoneId: string = await new Promise<string>(((resolve, reject) => {
-        maps.timezone({location: [lat, lng]}, (error: any, response: TimezoneClientResponse) => {
-            if (error) {
-                reject("");
-            }
-            else {
-                resolve(response.json.timeZoneId);
-            }
+        maps.timezone({location: [latLng[0], latLng[1]]}, (error: any, response: TimezoneClientResponse) => {
+            if (error) reject();
+            else resolve(response.json.timeZoneId);
         });
     }));
 
     let momentTz:moment.Moment = moment().tz(zoneId);
-
     message.edit(momentTz.format("HH:mm") + " (" + momentTz.format('Z') + ")");
 }, 1);
