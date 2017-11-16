@@ -53,12 +53,13 @@ export function logCommand(message: Message):void {
 }
 
 export function updateConfig(key: string, newValue: any):boolean {
-    let config:GlobalConfig = getConfig();
-    let typedValue: typeof config[key];
-    if (newValue as (typeof  !== getConfig()[key]) {
+    if (newValue !== <string>getConfig()[key]) {
         getConfig()[key] = newValue;
-        fs.writeFile("/../../config.json" , JSON.stringify(getConfig(), null, 2), error => {
-            if (error) console.log(error);
+        fs.writeFile(__dirname + "/../config.json" , JSON.stringify(getConfig(), null, 2), error => {
+            if (error) {
+                console.log(error);
+                return false;
+            }
             console.log("writing to config.json");
         });
         return true;

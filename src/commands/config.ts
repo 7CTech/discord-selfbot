@@ -15,6 +15,8 @@ export let configSet:Command = new Command("config", (client: Client, message: M
     else {
         if (util.updateConfig(configItem, util.getArgAtPosition(message.content, 1))) {
             message.edit("Successfully updated")
+        } else {
+            message.edit("Failed to update config");
         }
     }
-}, 3);
+}, 2);
