@@ -20,7 +20,7 @@ export let purge:Command = new Command("purge", async (client: Client, message: 
     for (let i:number = 0; i < messages.length; i++) {
         let m:Message = messages[i];
         if (m.author.id === client.user.id) {
-            m.delete();
+            await m.delete();
             deletedCount += 1;
         } if (deletedCount === max || m === lastMessage) {
             channel.send("Deleted " + deletedCount + " messages");

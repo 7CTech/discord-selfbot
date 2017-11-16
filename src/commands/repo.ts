@@ -5,34 +5,23 @@ import {ChildProcess, spawn, SpawnOptions} from "child_process"
 
 function sshToHttpsGitURL(url: string) {
     if (!url.includes("@") && !url.includes(":")) return false;
-    return "http://" + url.replace(":", "/").substr(url.indexOf("@"));
+    return "https://".concat(url.toString().replace(":", "/").substr(url.toString().indexOf("@")));
 }
 
-export let repo:Command = new Command("repo", (client: Client, message: Message) => {
+export let repo:Command = new Command("repo", async (client: Client, message: Message) => {
     const options:SpawnOptions = {
         cwd: __dirname,
         env: process.env
     };
-    let origin = "";
 
-    let gitOutput:ChildProcess = spawn("git", ["remote", "get-url", "origin"], options);
+    let gitOutput:string = await new Promise<string>(((resolve, reject) => {
+        spawn("git", ["remote", "get-url", "origin"], options).stdout.on("data", (data: string) => {
+            resolve(data);
+        }).on("error", (err:Error) => {
+            reject(err.message);
+        });
+    }));
 
-    gitOutput.stdout.on("data", (data: string) => {
-        console.log("gitOutput (stdout): " + data);
-        origin = data;
-    });
-
-    gitOutput.stderr.on("data", (data: string) => {
-        console.log("gitOutput (stderr): " + data);
-    });
-
-    gitOutput.on("close", (code: number) => {
-        console.log("gitOutput: closed with code " + code);
-    });
-
-    if (origin === "") {
-        console.log("no repo");
-        message.edit("Unknown repo").then(m => setTimeout(m.delete, 3 * 1000));
-    } else if (origin.includes("@")) message.edit(sshToHttpsGitURL(origin));
-    else message.edit(origin);
+    if (gitOutput.includes("@") && gitOutput.includes(":")) message.edit(sshToHttpsGitURL(gitOutput));
+    else message.edit(gitOutput);
 }, 0);
