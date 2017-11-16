@@ -8,10 +8,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "playground/*.ts"
   ],
   "exclude": [
     "node_modules/",
-    "old-js/"
   ]
 }
