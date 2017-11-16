@@ -28,8 +28,8 @@ export function getArgAtPosition(messageContent: string, argPos: number):string 
     return (split.length <= argPos)  ? "" :  split[argPos + 1];
 }
 
-export function incorrectArgCount(client: Client, message: Message, currentArgCount: number, expectedArgCount: number):void {
-    message.edit("Incorrect arg count. Expected " + expectedArgCount + ", got " + currentArgCount).then(m => setTimeout(m.delete, 3 * 1000));
+export function incorrectArgCount(client: Client, message: Message, currentArgCount: number, expectedArgCount: number):Promise<Message> {
+    return message.edit("Incorrect arg count. Expected " + expectedArgCount + ", got " + currentArgCount);
 }
 
 export function logCommand(message: Message):void {

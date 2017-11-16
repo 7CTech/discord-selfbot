@@ -34,7 +34,7 @@ interface TimezoneClientResponse {
     status: number
 }
 
-export let time:Command = new Command("time", async (client: Client, message: Message) => {
+export let time:Command = new Command("time", async (client: Client, message: Message):Promise<Message> => {
     let team:string = util.getArgAtPosition(message.content, 0);
 
     let maps = googleMaps.createClient({
@@ -53,10 +53,9 @@ export let time:Command = new Command("time", async (client: Client, message: Me
             }));
     }).catch<string>((reason:string):string => {
         teamError = true;
-        message.edit(reason);
         return reason;
     });
-    if (teamError) return;
+    if (teamError) return message.edit(location);;
 
     let latLng:number[] = await new Promise<number[]>((resolve, reject) => {
         maps.geocode({address: location}, (error: any, response: GeoCodeClientResponse) => {
@@ -77,5 +76,5 @@ export let time:Command = new Command("time", async (client: Client, message: Me
     }));
 
     let momentTz:moment.Moment = moment().tz(zoneId);
-    message.edit(momentTz.format("HH:mm") + " (" + momentTz.format('Z') + ")");
+    return message.edit(momentTz.format("HH:mm") + " (" + momentTz.format('Z') + ")");
 }, 1);

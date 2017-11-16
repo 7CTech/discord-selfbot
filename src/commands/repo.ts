@@ -8,7 +8,7 @@ function sshToHttpsGitURL(url: string) {
     return "https://".concat(url.toString().replace(":", "/").substr(url.toString().indexOf("@")));
 }
 
-export let repo:Command = new Command("repo", async (client: Client, message: Message) => {
+export let repo:Command = new Command("repo", async (client: Client, message: Message):Promise<Message> => {
     const options:SpawnOptions = {
         cwd: __dirname,
         env: process.env
@@ -22,6 +22,6 @@ export let repo:Command = new Command("repo", async (client: Client, message: Me
         });
     }));
 
-    if (gitOutput.includes("@") && gitOutput.includes(":")) message.edit(sshToHttpsGitURL(gitOutput));
-    else message.edit(gitOutput);
+    if (gitOutput.includes("@") && gitOutput.includes(":")) return message.edit(sshToHttpsGitURL(gitOutput));
+    return message.edit(gitOutput);
 }, 0);

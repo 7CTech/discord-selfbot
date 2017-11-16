@@ -1,8 +1,10 @@
 export interface GlobalConfig {
     prefix: string;
+    deletePrefix: string;
     commands: string[];
     logDir: string;
     purgeLimit: number;
+    deleteTimeS: number;
 }
 
 let globalConfig: GlobalConfig = require("../config.json");

@@ -1,5 +1,6 @@
 {
   "prefix": "~",
+  "deletePrefix": "~~",
   "commands": [
     "kill",
     "purge",
@@ -8,5 +9,6 @@
     "config"
   ],
   "logDir": "~/.selfbot-logs",
-  "purgeLimit": "50"
+  "purgeLimit": 50,
+  "deleteTimeS": 10
 }

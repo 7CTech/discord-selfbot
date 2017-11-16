@@ -51,12 +51,26 @@ client.on("ready", () => {
 client.on("message", async (message) => {
     if (message.author.id !== client.user.id) return;
     console.log(message.content);
-    if (message.content.startsWith(getConfig().prefix) &&
+
+
+    if (message.content.startsWith(getConfig().deletePrefix) &&
         commands.has(util.getCommand(message.content))) {
-        commands.get(util.getCommand(message.content)).forEach((c:Command) => {
+        commands.get(util.getCommand(message.content)).forEach(async (c:Command) => {
             if (c.argCount === util.getArgCount(message.content)) {
                 util.logCommand(message);
-                c.run(client, message);
+                c.run(client, message).then((m:Message) => {
+                    setTimeout(m.delete, getConfig().deleteTimeS);
+                })
+            }
+        })
+    }
+
+    if (message.content.startsWith(getConfig().prefix) &&
+        commands.has(util.getCommand(message.content))) {
+        commands.get(util.getCommand(message.content)).forEach(async (c:Command) => {
+            if (c.argCount === util.getArgCount(message.content)) {
+                util.logCommand(message);
+                await c.run(client, message);
             }
         });
     }
