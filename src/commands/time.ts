@@ -41,8 +41,7 @@ export let time:Command = new Command("time", async (client: Client, message: Me
         key: getMapsKey(),
         Promise: Promise
     });
-
-
+    
     let location:string = await new Promise<string>((resolve, reject) => {
         request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
             .on("data", (async data => {
