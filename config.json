@@ -8,5 +8,5 @@
     "config"
   ],
   "logDir": "~/.selfbot-logs",
-  "purgeLimit": 100
+  "purgeLimit": "50"
 }
