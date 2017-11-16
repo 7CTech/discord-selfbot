@@ -10,12 +10,14 @@ import * as googleMaps from "@google/maps"
 interface GeoCodeClientResponse {
     headers: Object,
     json: {
-        geometry: {
-            location: {
-                lat: number,
-                lng: number
+        results: {
+            geometry: {
+                location: {
+                    lat: number,
+                    lng: number
+                }
             }
-        }
+        }[]
     },
     status: number
 }
@@ -41,54 +43,40 @@ export let time:Command = new Command("time", async (client: Client, message: Me
     });
 
 
-    let location: string = "";
-
-
-    request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
-        .on("data",  (async data => {
-            let teamData:team = JSON.parse(data.toString());
-            location = teamData.country + "/" + teamData.city;
-            console.log(location);
-        }));
-    if (location === "") {
-        message.edit("Invalid TBA location data");
-        return;
-    }
-
-    let lng:number = 1000;
-    let lat:number = 1000;
-
-    await Promise.all([maps.geocode({address: location}, (error: any, response: GeoCodeClientResponse) => {
-        if (!error) {
-            lat = response.json.geometry.location.lat;
-            lng = response.json.geometry.location.lng;
-        } else {
-            message.edit("Failed to geocode");
-            return;
-        }
-    })]);
-
-    if (lng === 1000 || lat === 1000) {
-        message.edit("Failed to geocode");
-        return;
-    }
-
-    let tz:string = "";
-
-    maps.timezone({location: [lng, lat]}, (error: any, response: TimezoneClientResponse) => {
-        if (!error) tz = response.json.timeZoneId;
-        else {
-            message.edit("Failed to timezone");
-            return;
-        }
+    let location:string = await new Promise<string>((resolve, reject) => {
+        request("https://thebluealliance.com/api/v3/team/frc" + team + "?X-TBA-Auth-Key=" + getTBAToken())
+            .on("data", (async data => {
+                let teamData: team = JSON.parse(data.toString());
+                resolve(teamData.country + "/" + teamData.city);
+            }));
     });
 
-    if (tz === "") {
-        message.edit("Failed to timezone");
-        return;
-    }
+    let latLng:number[] = await new Promise<number[]>((resolve, reject) => {
+        maps.geocode({address: location}, async (error: any, response: GeoCodeClientResponse) => {
+            if (!error) {
+                resolve([response.json.results[0].geometry.location.lat, response.json.results[0].geometry.location.lng]);
+            } else {
+                console.log("failed to geocode");
+                reject();
+            }
+        });
+    });
 
-    let momentTz:moment.Moment = moment().tz(tz);
+    let lat:number = latLng[0];
+    let lng:number = latLng[1];
 
-    message.edit(momentTz.format("HH:mm" + " (" + momentTz.format("z") + ")"));
+    let zoneId: string = await new Promise<string>(((resolve, reject) => {
+        maps.timezone({location: [lat, lng]}, (error: any, response: TimezoneClientResponse) => {
+            if (error) {
+                reject("");
+            }
+            else {
+                resolve(response.json.timeZoneId);
+            }
+        });
+    }));
+
+    let momentTz:moment.Moment = moment().tz(zoneId);
+
+    message.edit(momentTz.format("HH:mm") + " (" + momentTz.format('Z') + ")");
 }, 1);
