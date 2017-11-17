@@ -25,11 +25,11 @@ import {kill} from "./commands/kill";
 //import {prefix} from "./commands/prefix";
 import {purge} from "./commands/purge";
 import {repo} from "./commands/repo";
-import {time} from "./commands/time";
+import {time, tba} from "./commands/tba";
 import {configSet, configGet} from "./commands/config"
 
 
-let commandsArray:Command[] = [kill, /*prefix,*/ purge, repo, time, configGet, configSet];
+let commandsArray:Command[] = [kill, purge, repo, time, tba, configGet, configSet];
 
 commandsArray.forEach((c: Command) => {
     if (getConfig().commands.indexOf(c.name) == -1) return;
@@ -70,7 +70,7 @@ client.on("message", async (message) => {
         commands.get(util.getCommand(message.content)).forEach(async (c:Command) => {
             if (c.argCount === util.getArgCount(message.content)) {
                 util.logCommand(message);
-                await c.run(client, message);
+                await c.run(client, message).then(() => c.afterRun(client, message));
             }
         });
     }

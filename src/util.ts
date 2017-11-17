@@ -1,5 +1,5 @@
 import {Message, Client} from "discord.js";
-import {getConfig, GlobalConfig} from "./globals";
+import {getConfig} from "./globals";
 
 import * as fs from "fs";
 import * as mkdirp from "mkdirp"
@@ -53,7 +53,8 @@ export function logCommand(message: Message):void {
 }
 
 export function updateConfig(key: string, newValue: any):boolean {
-    if (newValue !== getConfig()[key]) {
+    let oldValue = getConfig()[key];
+    if (newValue !== oldValue) {
         getConfig()[key] = newValue;
         fs.writeFile(__dirname + "/../config.json" , JSON.stringify(getConfig(), null, 2), error => {
             if (error) {
@@ -65,3 +66,9 @@ export function updateConfig(key: string, newValue: any):boolean {
         return true;
     } else return false;
 }
+
+/*export function jsonTypes(json: Object):string {
+    for (let item in Object) {
+        if (typeof item is typeof(Object))
+    }
+}*/

@@ -6,9 +6,11 @@
     "purge",
     "repo",
     "time",
-    "config"
+    "config",
+    "tba"
   ],
   "logDir": "~/.selfbot-logs",
   "purgeLimit": 50,
-  "deleteTimeS": 10
+  "deleteTimeS": 10,
+  "tbaEmbedHex": "#3F51B5"
 }

@@ -3,13 +3,17 @@ import {Client, Message} from "discord.js";
 import {getConfig, GlobalConfig} from "../globals";
 import * as util from "../util"
 
-export let configGet:Command = new Command("config", (client: Client, message: Message):Promise<Message> => {
+/*export let configList:Command = new Command("config", async (client: Client, message: Message):Promise<Message> => {
+
+}, 0);*/
+
+export let configGet:Command = new Command("config", async (client: Client, message: Message):Promise<Message> => {
     let configItem:string = util.getArgAtPosition(message.content, 0);
     if (!getConfig().hasOwnProperty(configItem)) return message.edit("invalid config item");
     return message.edit(getConfig()[configItem]);
 }, 1);
 
-export let configSet:Command = new Command("config", (client: Client, message: Message):Promise<Message> => {
+export let configSet:Command = new Command("config", async (client: Client, message: Message):Promise<Message> => {
     let configItem:string = util.getArgAtPosition(message.content, 0);
     if (!getConfig().hasOwnProperty(configItem)) return message.edit("invalid config item");
     let newValue:string = util.getArgAtPosition(message.content, 1);
