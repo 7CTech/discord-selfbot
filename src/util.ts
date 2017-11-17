@@ -53,7 +53,7 @@ export function logCommand(message: Message):void {
 }
 
 export function updateConfig(key: string, newValue: any):boolean {
-    if (newValue !== <string>getConfig()[key]) {
+    if (newValue !== getConfig()[key]) {
         getConfig()[key] = newValue;
         fs.writeFile(__dirname + "/../config.json" , JSON.stringify(getConfig(), null, 2), error => {
             if (error) {

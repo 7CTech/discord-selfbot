@@ -12,16 +12,12 @@ export let configGet:Command = new Command("config", (client: Client, message: M
 export let configSet:Command = new Command("config", (client: Client, message: Message):Promise<Message> => {
     let configItem:string = util.getArgAtPosition(message.content, 0);
     let newValueString:string = util.getArgAtPosition(message.content, 1);
-
     let item = getConfig()[configItem];
-
-    let typed:typeof item = <typeof item> newValueString;
+    let typedValue:typeof item = <typeof item> newValueString;
 
     if (!getConfig().hasOwnProperty(configItem)) return message.edit("invalid config item");
     else {
-        if (util.updateConfig(configItem, typed)) {
-            return message.edit("Successfully updated")
-        }
+        if (util.updateConfig(configItem, typedValue)) return message.edit("Successfully updated")
         return message.edit("Failed to update config");
     }
 }, 2);
