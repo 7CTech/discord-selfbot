@@ -21,13 +21,6 @@ find_package(Qt5 REQUIRED COMPONENTS Core DBus)
 set(SOURCE_FILES
         src/native/currently-playing.cc
         src/native/util.cc src/native/util.hh)
-        #bot.js
-        #mention-strings.json
-        #package-lock.json
-        #package.json
-        #secrets.json
-        #util.js)
-
 
 
 include_directories(${Qt5Core_INCLUDE_DIRS})
