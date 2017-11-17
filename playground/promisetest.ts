@@ -59,7 +59,7 @@ run();
 
 async function run() {
     let location:string = await new Promise<string>((resolve, reject) => {
-        request("https://thebluealliance.com/api/v3/team/frc" + "2468" + "?X-TBA-Auth-Key=" + "<TBAKEY>")
+        request("https://thebluealliance.com/api/v3/team/frc" + "118" + "?X-TBA-Auth-Key=" + "<TBA TOKEN>")
             .on("data", (async data => {
                 let teamData: team = JSON.parse(data.toString());
                 resolve(teamData.country + "/" + teamData.city);
@@ -68,7 +68,7 @@ async function run() {
     console.log(location);
 
     let maps = googleMaps.createClient({
-        key: "<APIKEY>",
+        key: "<MAPS API KEY>",
         Promise: Promise
     });
 
