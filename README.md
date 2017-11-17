@@ -12,3 +12,8 @@
 3. Run `tsc`
 3. Copy `secrets.default.json` to `secrets.json` and fill in the fields
 4. Run `node src/bot.js`
+
+## TODO
+- Make configure script to find Qt stuff and disable if not on Linux
+- Config 'complex' module
+- Merge commands into less files
