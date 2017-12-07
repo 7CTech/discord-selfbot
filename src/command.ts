@@ -6,7 +6,7 @@ export class Command {
     _func: (client: Client, message: Message) => Promise<Message>;
     _argCount: number;
     _afterRun: (client: Client, message: Message) => void;
-    constructor(name: string, func: (client: Client, message: Message) => Promise<Message>, argCount: number, afterRun?: (client: Client, message: Message) => void = () => {}) {
+    constructor(name: string, func: (client: Client, message: Message) => Promise<Message>, argCount: number, afterRun: (client: Client, message: Message) => void = () => {}) {
         this._name = name;
         this._func = func;
         this._argCount = argCount;

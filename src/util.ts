@@ -15,8 +15,8 @@ export function getArgCount(messageContent: string): number {
     return messageContent.split(" ").length - 1;
 }
 
-export function getCommand(messageContent: string):string {
-    return messageContent.split(" ")[0].substr(getConfig().prefix.length);
+export function getCommand(messageContent: string, prefix: string):string {
+    return messageContent.split(" ")[0].substr(prefix.length);
 }
 
 export function validateArgs(messageContent: string, argCount: number):boolean {

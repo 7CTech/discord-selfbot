@@ -54,20 +54,20 @@ client.on("message", async (message) => {
 
 
     if (message.content.startsWith(getConfig().deletePrefix) &&
-        commands.has(util.getCommand(message.content))) {
-        commands.get(util.getCommand(message.content)).forEach(async (c:Command) => {
+        commands.has(util.getCommand(message.content, getConfig().deletePrefix))) {
+        commands.get(util.getCommand(message.content, getConfig().deletePrefix)).forEach(async (c:Command) => {
             if (c.argCount === util.getArgCount(message.content)) {
                 util.logCommand(message);
-                c.run(client, message).then((m:Message) => {
+                await c.run(client, message).then((m:Message) => {
                     setTimeout(m.delete, getConfig().deleteTimeS);
-                })
+                }).then(() => c.afterRun(client, message));
             }
         })
     }
 
     if (message.content.startsWith(getConfig().prefix) &&
-        commands.has(util.getCommand(message.content))) {
-        commands.get(util.getCommand(message.content)).forEach(async (c:Command) => {
+        commands.has(util.getCommand(message.content, getConfig().prefix))) {
+        commands.get(util.getCommand(message.content, getConfig().prefix)).forEach(async (c:Command) => {
             if (c.argCount === util.getArgCount(message.content)) {
                 util.logCommand(message);
                 await c.run(client, message).then(() => c.afterRun(client, message));
